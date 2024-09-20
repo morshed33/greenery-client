@@ -1,10 +1,11 @@
 import { FC } from "react";
+import ProductsPage from "./components/MainScreen/Products/ProductsPage";
 
 const App: FC = () => {
   return (
     <>
-      <div className="text-7xl h-dvh flex items-center justify-center flex-col">
-        <p>Greenery Client</p>
+      <div className="">
+        <ProductsPage />
       </div>
     </>
   );
