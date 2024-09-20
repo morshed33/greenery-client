@@ -8,7 +8,7 @@ function App() {
     <div className="min-h-screen max-w-7xl mx-auto bg-gray-50 relative">
       <Router>
         <NavBar />
-        <div className="pt-24 p-4 sm:p-10">
+        <div className="pt-16">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/products" element={<ProductsPage />} />

@@ -20,7 +20,7 @@ const ProductsPage: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="">
+    <div className="p-4 pt-10">
       <div className="flex items-center justify-between p-4 mb-10 bg-gray-400 rounded-lg">
         <h1 className="text-xl xl:text-2xl uppercase font-semibold">Popular Products</h1>
         <Button variant={"outline"} onClick={() => setIsDialogOpen(true)}>
