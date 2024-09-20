@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
-import { useAppDispatch } from "../../../store/hook";
+import { useAppDispatch } from "../../store/hook";
 import {
   createProduct,
   fetchProducts,
   ICreateProduct,
-} from "../../../store/slices/productSlice";
+} from "../../store/slices/productSlice";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -84,8 +84,8 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogTitle>Create Product</DialogTitle>
-        <form onSubmit={handleCreateProduct} className="space-y-4">
-          <div>
+        <form onSubmit={handleCreateProduct} className="space-y-4 my-6">
+          <div className="space-y-1">
             <Label htmlFor="title">Product Title</Label>
             <Input
               id="title"
@@ -102,7 +102,7 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
             )}
           </div>
 
-          <div>
+          <div className="space-y-1">
             <Label htmlFor="description">Product Description</Label>
             <Input
               id="description"
@@ -121,7 +121,7 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
             )}
           </div>
 
-          <div>
+          <div className="space-y-1">
             <Label htmlFor="category">Product Category</Label>
             <Input
               id="category"
@@ -140,7 +140,7 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
             )}
           </div>
 
-          <div>
+          <div className="space-y-1">
             <Label htmlFor="price">Product Price</Label>
             <Input
               id="price"
@@ -157,7 +157,7 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
             )}
           </div>
 
-          <div>
+          <div className="space-y-1">
             <Label htmlFor="quantity">Quantity</Label>
             <Input
               id="quantity"
@@ -179,7 +179,7 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
             )}
           </div>
 
-          <div>
+          <div className="space-y-1">
             <Label htmlFor="rating">Rating</Label>
             <Input
               id="rating"
@@ -198,7 +198,7 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
             )}
           </div>
 
-          <div>
+          <div className="space-y-1">
             <Label htmlFor="image">Product Image URL</Label>
             <Input
               id="image"

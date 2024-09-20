@@ -37,11 +37,12 @@ const initialState: ProductState = {
 // Create product
 export const createProduct = createAsyncThunk(
   "products/createProduct",
-  async (product: IProduct) => {
+  async (product: IProduct, { dispatch }) => {
     const response = await axios.post(
       `${import.meta.env.VITE_REACT_APP_API_URL}/products`,
       product
     );
+    dispatch(fetchProducts()); // Refetch products after creation
     return response.data; // Return created product data
   }
 );
@@ -60,10 +61,11 @@ export const fetchProducts = createAsyncThunk(
 // Delete product
 export const deleteProduct = createAsyncThunk(
   "products/deleteProduct",
-  async (id: string) => {
+  async (id: string, { dispatch }) => {
     await axios.delete(
       `${import.meta.env.VITE_REACT_APP_API_URL}/products/${id}`
     );
+    dispatch(fetchProducts()); // Refetch products after deletion
     return id; // Return the ID of the deleted product
   }
 );
@@ -71,11 +73,12 @@ export const deleteProduct = createAsyncThunk(
 // Edit product
 export const editProduct = createAsyncThunk(
   "products/editProduct",
-  async (product: IProduct) => {
+  async (product: IProduct, { dispatch }) => {
     const response = await axios.put(
       `${import.meta.env.VITE_REACT_APP_API_URL}/products/${product._id}`,
       product
     );
+    dispatch(fetchProducts()); // Refetch products after editing
     return response.data; // Return updated product data
   }
 );
@@ -110,9 +113,8 @@ const productSlice = createSlice({
       .addCase(createProduct.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(createProduct.fulfilled, (state, action) => {
+      .addCase(createProduct.fulfilled, (state) => {
         state.status = "succeeded";
-        state.products = [...state.products, action.payload];
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.status = "failed";

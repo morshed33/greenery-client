@@ -1,14 +1,14 @@
-import { FC } from "react";
-import ProductsPage from "./components/MainScreen/Products/ProductsPage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProductsPage from "./pages/ProductsPage";
 
-const App: FC = () => {
+function App() {
   return (
-    <>
-      <div className="">
-        <ProductsPage />
-      </div>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/products" element={<ProductsPage />} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;

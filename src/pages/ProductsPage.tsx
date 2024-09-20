@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/hook";
-import ProductsTable from "./ProductsTable";
 import {
-  fetchProducts,
   deleteProduct,
   editProduct,
-} from "../../../store/slices/productSlice";
+  fetchProducts,
+} from "@/store/slices/productSlice";
 import { Button } from "@/components/ui/button";
-import CreateProductDialog from "./CreateProductDialog";
+import ProductsTable from "@/components/Products/ProductsTable";
+import CreateProductDialog from "@/components/Products/CreateProductDialog";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
 
 const ProductsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -20,9 +20,13 @@ const ProductsPage: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-xl font-semibold mb-4">Products</h1>
-      <Button onClick={() => setIsDialogOpen(true)}>Create Product</Button>
+    <div className="pt-20 p-10">
+      <div className="flex items-center justify-between my-20 px-10 py-6 bg-gray-400 rounded-lg">
+        <h1 className="text-2xl uppercase font-semibold">Popular Products</h1>
+        <Button variant={"outline"} onClick={() => setIsDialogOpen(true)}>
+          Create Product
+        </Button>
+      </div>
 
       <ProductsTable
         products={products}
