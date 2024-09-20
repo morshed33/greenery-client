@@ -42,11 +42,11 @@ const ProductsTable: FC<IProductsTableProps> = ({
       ) : (
         <Table>
           <TableHeader>
-            <TableRow className="flex justify-between items-center !w-full">
+            <TableRow>
               <TableHead className="w-[100px]">Image</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Price</TableHead>
-              <TableHead>Quantity</TableHead>
+              <TableHead className="text-right">Quantity</TableHead>
               <TableHead className="text-right">Action</TableHead>
             </TableRow>
           </TableHeader>

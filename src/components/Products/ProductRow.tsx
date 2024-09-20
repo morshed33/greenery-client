@@ -12,16 +12,16 @@ interface IProductRowProps {
 
 const ProductRow: FC<IProductRowProps> = ({ product, onEdit, onDelete }) => {
   return (
-    <TableRow className="flex justify-between items-center !w-full">
+    <TableRow>
       <TableCell>
         <img
           src={product.image || "https://via.placeholder.com/150"}
           alt={product.title}
           width={50}
-          className="rounded-md"
+          className="rounded-md h-10 w-10"
         />
       </TableCell>
-      <TableCell className="flex items-center gap-2 justify-start">
+      <TableCell>
         {product.title}
       </TableCell>
       <TableCell>{product.price}</TableCell>
