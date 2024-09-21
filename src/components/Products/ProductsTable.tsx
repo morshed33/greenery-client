@@ -35,9 +35,12 @@ const ProductsTable: FC<IProductsTableProps> = ({
     setProductToDelete(id);
   };
 
+
+  console.log(products)
+
   return (
     <div>
-      {products.length === 0 ? (
+      {products?.length === 0 ? (
         <p>No products found</p>
       ) : (
         <Table>
@@ -51,7 +54,7 @@ const ProductsTable: FC<IProductsTableProps> = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
+            {products?.map((product) => (
               <ProductRow
                 key={product._id}
                 product={product}

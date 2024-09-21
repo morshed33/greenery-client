@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// Define interfaces
 export interface IProduct {
   _id?: string;
   title: string;
@@ -12,27 +13,53 @@ export interface IProduct {
   description: string;
 }
 
-export interface ICreateProduct {
-  title: string;
-  price: number;
-  quantity: number;
-  image: string;
-  rating: number;
-  category: string;
-  description: string;
-}
-
 interface ProductState {
   products: IProduct[];
+  productDetails: IProduct | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
+  pagination: {
+    total: number;
+    limit: number;
+    page: number;
+  };
 }
 
 const initialState: ProductState = {
   products: [],
+  productDetails: null,
   status: "idle",
   error: null,
+  pagination: {
+    total: 0,
+    limit: 10,
+    page: 1,
+  },
 };
+
+// Thunks for async actions
+// Fetch all products with query params
+export const fetchProducts = createAsyncThunk(
+  "products/fetchProducts",
+  async (query: Record<string, unknown>) => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/products`,
+      { params: query }
+    );
+    return response.data.data;
+  }
+);
+
+// Fetch single product
+export const fetchProduct = createAsyncThunk(
+  "products/fetchProduct",
+  async (id: string) => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/products/${id}`
+    );
+    return response.data.data;
+  }
+);
 
 // Create product
 export const createProduct = createAsyncThunk(
@@ -42,18 +69,7 @@ export const createProduct = createAsyncThunk(
       `${import.meta.env.VITE_REACT_APP_API_URL}/products`,
       product
     );
-    dispatch(fetchProducts()); // Refetch products after creation
-    return response.data; // Return created product data
-  }
-);
-
-// Fetch products
-export const fetchProducts = createAsyncThunk(
-  "products/fetchProducts",
-  async () => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/products`
-    );
+    dispatch(fetchProducts({}));
     return response.data.data;
   }
 );
@@ -65,8 +81,8 @@ export const deleteProduct = createAsyncThunk(
     await axios.delete(
       `${import.meta.env.VITE_REACT_APP_API_URL}/products/${id}`
     );
-    dispatch(fetchProducts()); // Refetch products after deletion
-    return id; // Return the ID of the deleted product
+    dispatch(fetchProducts({}));
+    return id;
   }
 );
 
@@ -78,11 +94,12 @@ export const editProduct = createAsyncThunk(
       `${import.meta.env.VITE_REACT_APP_API_URL}/products/${product._id}`,
       product
     );
-    dispatch(fetchProducts()); // Refetch products after editing
-    return response.data; // Return updated product data
+    dispatch(fetchProducts({}));
+    return response.data.data;
   }
 );
 
+// Product Slice
 const productSlice = createSlice({
   name: "products",
   initialState,
@@ -96,6 +113,12 @@ const productSlice = createSlice({
     setError(state, action) {
       state.error = action.payload;
     },
+    clearProductDetails(state) {
+      state.productDetails = null;
+    },
+    setPagination(state, action) {
+      state.pagination = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -104,11 +127,24 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.products = action.payload;
+        state.products = action.payload.products;
+        state.pagination = action.payload.pagination;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Failed to fetch products.";
+      })
+      .addCase(fetchProduct.pending, (state) => {
+        state.status = "loading";
+        state.productDetails = null;
+      })
+      .addCase(fetchProduct.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.productDetails = action.payload;
+      })
+      .addCase(fetchProduct.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || "Failed to fetch product.";
       })
       .addCase(createProduct.pending, (state) => {
         state.status = "loading";
@@ -130,11 +166,17 @@ const productSlice = createSlice({
           (product) => product._id === action.payload._id
         );
         if (index !== -1) {
-          state.products[index] = action.payload; // Update the product in the state
+          state.products[index] = action.payload;
         }
       });
   },
 });
 
-export const { setProducts, setStatus, setError } = productSlice.actions;
+export const {
+  setProducts,
+  setStatus,
+  setError,
+  clearProductDetails,
+  setPagination,
+} = productSlice.actions;
 export default productSlice.reducer;

@@ -82,6 +82,15 @@ export const EditProductDialog: FC<IEditProductDialogProps> = ({
             />
           </div>
           <div className="space-y-1">
+            <Label>Category</Label>
+            <Input
+              type="text"
+              placeholder="Category"
+              {...register("category")}
+              defaultValue={product.category}
+            />
+          </div>
+          <div className="space-y-1">
             <Label>Rating</Label>
             <Input
               type="number"
