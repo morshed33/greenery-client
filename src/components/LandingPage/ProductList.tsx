@@ -1,6 +1,7 @@
-import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { fetchProducts } from "@/store/slices/productSlice";
 import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { fetchProducts, IProduct } from "@/store/slices/productSlice";
+import { addToCart } from "@/store/slices/cartSlice"; // Import addToCart
 import { useNavigate } from "react-router-dom";
 import { Input } from "../ui/input";
 import { Tabs, TabsTrigger, TabsList } from "../ui/tabs";
@@ -16,34 +17,29 @@ import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import PlantSpinner from "../PlantSpinner";
+import { toast } from "react-toastify"; // Optional: Replace with your notification system
 
 const ProductList: React.FC = () => {
   const dispatch = useAppDispatch();
   const { products, error, pagination } = useAppSelector(
     (state) => state.products
   );
-
-  // is loading
   const loading = useAppSelector(
     (state) => state.products.status === "loading"
   );
   const totalProducts = pagination.total || 0;
-
   const navigate = useNavigate();
-
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [sortBy, setSortBy] = useState("price asc"); // Default sort
+  const [sortBy, setSortBy] = useState("price asc");
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  // Fetch products when dependencies change
   useEffect(() => {
     dispatch(
       fetchProducts({
@@ -66,7 +62,7 @@ const ProductList: React.FC = () => {
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
-    setPage(1); // Reset to first page on category change
+    setPage(1);
   };
 
   const handleSortChange = (criteria: string) => {
@@ -77,13 +73,27 @@ const ProductList: React.FC = () => {
     setPage(newPage);
   };
 
+  const handleAddToCart = (product: IProduct) => {
+    dispatch(
+      addToCart({
+        id: product._id!,
+        title: product.title,
+        price: product.price,
+        quantity: product.quantity, // Use available quantity from product
+        image: product.image,
+        addedQuantity: 1, // Default added quantity is 1
+      })
+    );
+
+    toast.success(`${product.title} has been added to your cart!`);
+  };
+
   const totalPages = Math.ceil(totalProducts / limit);
 
   return (
     <div className="p-6 bg-green-50 min-h-screen">
-      {/* Search, Tabs, and Sort - Responsive Layout */}
+      {/* Search, Tabs, and Sort */}
       <div className="grid grid-cols-5 gap-4 w-full my-10">
-        {/* Search and Sort for small screens */}
         <div className="col-span-3 sm:col-span-1 sm:col-start-1 sm:col-end-2">
           <Input
             placeholder="Search plants 🪴..."
@@ -92,8 +102,6 @@ const ProductList: React.FC = () => {
             className="w-full bg-green-200 border-green-400 focus:outline-none focus:ring focus:ring-green-300 rounded-md"
           />
         </div>
-
-        {/* Tabs for categories */}
         <div className="md:mx-auto col-span-5 sm:col-span-3 row-start-1 sm:col-start-2 overflow-x-auto rounded-md">
           <Tabs
             className=""
@@ -110,7 +118,6 @@ const ProductList: React.FC = () => {
             </TabsList>
           </Tabs>
         </div>
-
         <div className="col-span-2 sm:col-span-1">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -160,7 +167,7 @@ const ProductList: React.FC = () => {
       {/* Product Grid */}
       {loading ? (
         <div className="flex justify-center items-center my-10">
-          <PlantSpinner /> {/* Simple loading animation */}
+          <PlantSpinner />
         </div>
       ) : error ? (
         <div className="text-center text-red-600 my-10">
@@ -198,12 +205,12 @@ const ProductList: React.FC = () => {
                   <span className="text-yellow-500">★</span>
                   <span className="ml-1 text-gray-600">{product.rating}</span>
                 </div>
-                <button
-                  className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition-all duration-300"
-                  onClick={() => alert("Added to cart!")}
+                <Button
+                  onClick={() => handleAddToCart(product)}
+                  className="w-full mt-4 bg-green-600 text-white hover:bg-green-700"
                 >
                   Add to Cart
-                </button>
+                </Button>
               </div>
             </div>
           ))}
@@ -211,47 +218,25 @@ const ProductList: React.FC = () => {
       )}
 
       {/* Pagination */}
-      {totalProducts > 0 && (
-        <div className="mt-6 flex justify-center">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                {page > 1 ? (
-                  <PaginationPrevious
-                    href="#"
-                    onClick={() => handlePageChange(page - 1)}
-                  />
-                ) : (
-                  <span className="opacity-50 cursor-not-allowed">
-                    Previous
-                  </span>
-                )}
-              </PaginationItem>
-              {Array.from({ length: totalPages }).map((_, idx) => (
-                <PaginationItem key={idx}>
-                  <PaginationLink
-                    href="#"
-                    onClick={() => handlePageChange(idx + 1)}
-                    className={page === idx + 1 ? "font-bold" : ""}
-                  >
-                    {idx + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-              <PaginationItem>
-                {page < totalPages ? (
-                  <PaginationNext
-                    href="#"
-                    onClick={() => handlePageChange(page + 1)}
-                  />
-                ) : (
-                  <span className="opacity-50 cursor-not-allowed">Next</span>
-                )}
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )}
+      <Pagination>
+        <PaginationContent>
+          <PaginationPrevious
+            onClick={() => page > 1 && handlePageChange(page - 1)}
+          >
+            Previous
+          </PaginationPrevious>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <PaginationItem key={i} onClick={() => handlePageChange(i + 1)}>
+              {i + 1}
+            </PaginationItem>
+          ))}
+          <PaginationNext
+            onClick={() => page < totalPages && handlePageChange(page + 1)}
+          >
+            Next
+          </PaginationNext>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };
