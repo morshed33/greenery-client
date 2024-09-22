@@ -94,7 +94,7 @@ const ProductList: React.FC = () => {
     <div className="p-6 bg-green-50 min-h-screen">
       {/* Search, Tabs, and Sort */}
       <div className="grid grid-cols-5 gap-4 w-full my-10">
-        <div className="col-span-3 sm:col-span-1 sm:col-start-1 sm:col-end-2">
+        <div className="col-span-3 md:col-span-1 md:col-start-1 md:col-end-2">
           <Input
             placeholder="Search plants 🪴..."
             value={searchTerm}
@@ -102,7 +102,7 @@ const ProductList: React.FC = () => {
             className="w-full bg-green-200 border-green-400 focus:outline-none focus:ring focus:ring-green-300 rounded-md"
           />
         </div>
-        <div className="md:mx-auto col-span-5 sm:col-span-3 row-start-1 sm:col-start-2 overflow-x-auto rounded-md">
+        <div className="md:mx-auto col-span-5 md:col-span-3 row-start-1 md:col-start-2 overflow-x-auto rounded-md">
           <Tabs
             className=""
             defaultValue=""
@@ -118,7 +118,7 @@ const ProductList: React.FC = () => {
             </TabsList>
           </Tabs>
         </div>
-        <div className="col-span-2 sm:col-span-1">
+        <div className="col-span-2 md:col-span-1">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
