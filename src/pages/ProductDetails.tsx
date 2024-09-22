@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store/store"; // Import the AppDispatch type
 import { clearProductDetails, fetchProduct } from "@/store/slices/productSlice";
 import { useAppDispatch } from "@/store/hook";
-import PlantSpinner from "@/components/PlantSpinner";
+import PlantSpinner from "@/components/common/PlantSpinner";
 
 const ProductDetails: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();

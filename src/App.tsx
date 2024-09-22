@@ -7,11 +7,10 @@ import {
 } from "react-router-dom";
 import { useEffect } from "react";
 import ProductsPage from "./pages/ProductsPage";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/common/NavBar";
 import LandingPage from "./pages/LandingPage";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
-import { ToastContainer } from "react-toastify";
 
 // Scroll Restoration Component
 const ScrollToTop = () => {

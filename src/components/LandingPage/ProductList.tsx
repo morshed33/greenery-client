@@ -21,8 +21,12 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
-import PlantSpinner from "../PlantSpinner";
+import PlantSpinner from "../common/PlantSpinner";
 import { toast } from "react-toastify"; // Optional: Replace with your notification system
+import LottieAnimation from "../common/SectionHead";
+import SectionHead from "../common/SectionHead";
+
+const animationPath = "../../assets/fulona.json";
 
 const ProductList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -92,6 +96,11 @@ const ProductList: React.FC = () => {
 
   return (
     <div className="p-6 bg-green-50 min-h-screen">
+      <SectionHead
+        title="All Plants."
+        description="Plant your garden with ease"
+      />
+
       {/* Search, Tabs, and Sort */}
       <div className="grid grid-cols-5 gap-4 w-full my-10">
         <div className="col-span-3 md:col-span-1 md:col-start-1 md:col-end-2">
