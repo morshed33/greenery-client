@@ -95,7 +95,7 @@ const ProductList: React.FC = () => {
   const totalPages = Math.ceil(totalProducts / limit);
 
   return (
-    <div className="p-6 bg-green-50 min-h-screen">
+    <div className="p-6 bg-green-100 px-4 sm:px-10 md:px-20 ">
       <SectionHead
         title="All Plants."
         description="Plant your garden with ease"

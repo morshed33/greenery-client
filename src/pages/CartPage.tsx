@@ -52,8 +52,8 @@ const CartPage: React.FC = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="text-center mt-8">
-        <FaLeaf className="text-green-600 text-6xl mx-auto mb-4" />
+      <div className=" bg-green-100 text-center h-[calc(100dvh-65px)] flex flex-col items-center justify-center">
+        <FaLeaf className="text-green-600 text-6xl mx-auto mb-4 animate-pulse" />
         <h2 className="text-2xl font-bold">Your cart is empty</h2>
       </div>
     );

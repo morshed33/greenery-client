@@ -25,7 +25,7 @@ const ScrollToTop = () => {
 
 function App() {
   return (
-    <div className="min-h-screen max-w-7xl mx-auto bg-gray-50 relative">
+    <div className="min-h-screen  mx-auto bg-gray-50 relative">
       <Router>
         <ScrollToTop />
         <NavBar />
