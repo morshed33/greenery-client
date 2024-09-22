@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import ProductsTable from "@/components/Products/ProductsTable";
 import CreateProductDialog from "@/components/Products/CreateProductDialog";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
+import SectionHead from "@/components/common/SectionHead";
+import { FaPlus, FaTree } from "react-icons/fa";
 
 const ProductsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -16,28 +18,34 @@ const ProductsPage: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(fetchProducts({}));
   }, [dispatch]);
 
   return (
-    <div className="p-4 pt-10">
-      <div className="flex items-center justify-between p-4 mb-10 bg-gray-400 rounded-lg">
-        <h1 className="text-xl xl:text-2xl uppercase font-semibold">Popular Products</h1>
-        <Button variant={"outline"} onClick={() => setIsDialogOpen(true)}>
-          Create Product
-        </Button>
+    <div className="p-4 pt-10 bg-green-100">
+      <div className="mx-auto max-w-7xl">
+        <SectionHead
+          title="Manage Plants."
+          description="All of the plants you need to grow."
+        />
+        <div className="flex justify-end">
+          <Button variant={"outline"} onClick={() => setIsDialogOpen(true)}>
+            <FaPlus className="text-green-600" />{" "}
+            <FaTree className="text-green-600" />
+          </Button>
+        </div>
+
+        <ProductsTable
+          products={products}
+          onDeleteProduct={(id) => dispatch(deleteProduct(id))}
+          onEditProduct={(product) => dispatch(editProduct(product))}
+        />
+
+        <CreateProductDialog
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+        />
       </div>
-
-      <ProductsTable
-        products={products}
-        onDeleteProduct={(id) => dispatch(deleteProduct(id))}
-        onEditProduct={(product) => dispatch(editProduct(product))}
-      />
-
-      <CreateProductDialog
-        isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-      />
     </div>
   );
 };

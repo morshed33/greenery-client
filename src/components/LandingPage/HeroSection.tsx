@@ -9,7 +9,7 @@ const CustomPrevArrow = (props: any) => {
   return (
     <div
       onClick={onClick}
-      className="absolute left-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-green-600 z-10"
+      className="absolute hover:text-green-700 hover:scale-110 transition-transform left-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-green-600 z-10"
     >
       <FaLeaf size={32} className="rotate-180" />
     </div>
@@ -21,7 +21,7 @@ const CustomNextArrow = (props: any) => {
   return (
     <div
       onClick={onClick}
-      className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-green-600 z-10"
+      className="absolute hover:text-green-700 hover:scale-110 transition-transform right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-green-600 z-10"
     >
       <FaLeaf size={32} />
     </div>
