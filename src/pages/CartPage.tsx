@@ -10,6 +10,7 @@ import {
 import { RootState } from "@/store/store";
 import { FaLeaf, FaShoppingCart } from "react-icons/fa";
 import { TbChristmasTreeOff, TbTree, TbTrees } from "react-icons/tb";
+import { Link } from "react-router-dom";
 
 const CartPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -149,9 +150,12 @@ const CartPage: React.FC = () => {
           <h2 className="text-xl font-bold text-green-700">
             Total: ৳{cartTotal.toFixed(2)}
           </h2>
-          <button className="mt-4 px-6 py-2 bg-green-500 text-white hover:bg-green-600 rounded transition duration-200">
+          <Link
+            to="/checkout"
+            className="px-6 py-2 bg-green-500 text-white hover:bg-green-600 rounded transition duration-200"
+          >
             Proceed to Checkout
-          </button>
+          </Link>
         </div>
       </div>
     </div>

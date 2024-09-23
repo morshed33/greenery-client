@@ -11,6 +11,7 @@ import NavBar from "./components/common/NavBar";
 import LandingPage from "./pages/LandingPage";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 // Scroll Restoration Component
 const ScrollToTop = () => {
@@ -35,6 +36,7 @@ function App() {
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/products/:productId" element={<ProductDetails />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
             <Route
               path="*"
               element={

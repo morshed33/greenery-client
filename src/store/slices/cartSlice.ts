@@ -1,3 +1,6 @@
+// features/cart/cartSlice.ts
+import { title } from "process";
+import { RootState } from "../store"; // Adjust based on your actual store setup
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface TCartItem {
@@ -32,14 +35,13 @@ const cartSlice = createSlice({
       if (existingItem) {
         const newAddedQuantity =
           existingItem.addedQuantity + action.payload.addedQuantity;
-        // Ensure added quantity doesn't exceed available stock
         if (newAddedQuantity <= existingItem.quantity) {
           existingItem.addedQuantity = newAddedQuantity;
         }
       } else {
         state.items.push({
           ...action.payload,
-          addedQuantity: action.payload.addedQuantity, // User's initial added quantity
+          addedQuantity: action.payload.addedQuantity,
         });
       }
       localStorage.setItem("cart", JSON.stringify(state.items));
@@ -68,6 +70,16 @@ const cartSlice = createSlice({
     },
   },
 });
+
+// Selector to reformat cart items for order submission
+export const selectCartItemsForOrder = (state: RootState) => {
+  return state.cart.items.map((item) => ({
+    title: item.title,
+    productId: item.id,
+    price: item.price,
+    quantity: item.addedQuantity,
+  }));
+};
 
 export const {
   addToCart,
