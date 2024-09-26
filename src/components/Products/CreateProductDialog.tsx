@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../store/hook";
 import {
   createProduct,
   fetchProducts,
-  ICreateProduct,
+  IProduct,
 } from "../../store/slices/productSlice";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
   onClose,
 }) => {
   const dispatch = useAppDispatch();
-  const [newProduct, setNewProduct] = useState<ICreateProduct>({
+  const [newProduct, setNewProduct] = useState<IProduct>({
     title: "",
     price: 0,
     quantity: 0,
@@ -67,7 +67,7 @@ const CreateProductDialog: React.FC<CreateProductDialogProps> = ({
           category: "",
           description: "",
         });
-        dispatch(fetchProducts());
+        dispatch(fetchProducts({}));
         setIsSuccess(false);
         onClose();
       } catch (error: any) {

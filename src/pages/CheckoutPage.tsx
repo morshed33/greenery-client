@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Tailwind and Toastify styles
+import { toast } from "react-toastify";
 import { clearCart, selectCartItemsForOrder } from "@/store/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 
-interface IOrderResponse {
-  success: boolean;
-  message: string;
-}
+// interface IOrderResponse {
+//   success: boolean;
+//   message: string;
+// }
 
 const CheckoutPage: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartItems = useSelector(selectCartItemsForOrder);
-  const [orderResponse, setOrderResponse] = useState<IOrderResponse | null>(
-    null
-  );
+  // const [orderResponse, setOrderResponse] = useState<IOrderResponse | null>(
+  //   null
+  // );
 
   const {
     register,
@@ -27,45 +27,40 @@ const CheckoutPage: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      // Mock API request
-      const response = await fetch("http://localhost:8000/api/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          customer: data,
-          paymentMethod: data.paymentMethod, // Payment Method added
-          products: cartItems.map((item) => ({
-            productId: item.productId,
-            price: item.price,
-            quantity: item.quantity,
-          })),
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_API_URL}/orders`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customer: data,
+            paymentMethod: data.paymentMethod, // Payment Method added
+            products: cartItems.map((item) => ({
+              productId: item.productId,
+              price: item.price,
+              quantity: item.quantity,
+            })),
+          }),
+        }
+      );
 
-      const result: IOrderResponse = await response.json();
+      const result = await response.json();
 
       if (result.success) {
-        setOrderResponse(result);
-        dispatch(clearCart()); // Clear the cart if the order is successful
-        toast.success("Order placed successfully!", {
-          position: toast.POSITION.TOP_CENTER,
-        });
+        // setOrderResponse(result);
+        dispatch(clearCart());
+        toast.success("Order placed successfully!");
 
-        // Redirect to homepage after 3 seconds
         setTimeout(() => {
           navigate("/");
-        }, 3000);
+        }, 1000);
       } else {
-        toast.error(result.message || "Order failed. Try again.", {
-          position: toast.POSITION.TOP_CENTER,
-        });
+        toast.error(result.message || "Order failed. Try again.");
       }
-    } catch (error) {
-      toast.error("An error occurred. Please try again.", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+    } catch (error: any) {
+      toast.error(error.message || "An error occurred. Please try again.");
     }
   };
 
@@ -93,7 +88,8 @@ const CheckoutPage: React.FC = () => {
               />
               {errors.name && (
                 <span className="text-red-500 text-sm">
-                  {errors.name.message}
+                  {typeof errors.name.message === "string" &&
+                    errors.name.message}
                 </span>
               )}
             </div>
@@ -112,7 +108,8 @@ const CheckoutPage: React.FC = () => {
               />
               {errors.phone && (
                 <span className="text-red-500 text-sm">
-                  {errors.phone.message}
+                  {typeof errors.phone.message === "string" &&
+                    errors.phone.message}
                 </span>
               )}
             </div>
@@ -131,7 +128,8 @@ const CheckoutPage: React.FC = () => {
               />
               {errors.address && (
                 <span className="text-red-500 text-sm">
-                  {errors.address.message}
+                  {typeof errors.address.message === "string" &&
+                    errors.address.message}
                 </span>
               )}
             </div>
@@ -178,7 +176,8 @@ const CheckoutPage: React.FC = () => {
             </div>
             {errors.paymentMethod && (
               <span className="text-red-500 text-sm">
-                {errors.paymentMethod.message}
+                {typeof errors.paymentMethod.message === "string" &&
+                  errors.paymentMethod.message}
               </span>
             )}
           </div>
@@ -221,7 +220,6 @@ const CheckoutPage: React.FC = () => {
           </div>
         </form>
       </div>
-      <ToastContainer />
     </div>
   );
 };

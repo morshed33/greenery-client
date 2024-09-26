@@ -23,10 +23,8 @@ import {
 import { Button } from "@/components/ui/button";
 import PlantSpinner from "../common/PlantSpinner";
 import { toast } from "react-toastify"; // Optional: Replace with your notification system
-import LottieAnimation from "../common/SectionHead";
 import SectionHead from "../common/SectionHead";
 
-const animationPath = "../../assets/fulona.json";
 
 const ProductList: React.FC = () => {
   const dispatch = useAppDispatch();

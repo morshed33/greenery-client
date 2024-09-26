@@ -41,7 +41,9 @@ const SectionHead: FC<ISectionHeadProps> = ({
     <div className="flex items-center justify-center my-10">
       <div className="relative inline-block">
         <div className="relative z-10 ">
-          <h2 className={`text-6xl font-bold text-gray-800 ${extraClass}`}>
+          <h2
+            className={`text-4xl md:text-5xl xl:text-6xl font-bold text-gray-800 ${extraClass}`}
+          >
             {title}
           </h2>
         </div>
