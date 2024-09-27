@@ -25,7 +25,6 @@ import PlantSpinner from "../common/PlantSpinner";
 import { toast } from "react-toastify"; // Optional: Replace with your notification system
 import SectionHead from "../common/SectionHead";
 
-
 const ProductList: React.FC = () => {
   const dispatch = useAppDispatch();
   const { products, error, pagination } = useAppSelector(
@@ -225,19 +224,38 @@ const ProductList: React.FC = () => {
       )}
 
       {/* Pagination */}
-      <Pagination>
+      <Pagination className="mt-10 mb-20">
         <PaginationContent>
           <PaginationPrevious
+            className={`${
+              page === totalPages && page !== 1
+                ? "bg-green-600 hover:bg-green-700 text-green-50 hover:text-white cursor-pointer"
+                : "bg-gray-200 hover:bg-gray-300 text-gray-500 hover:text-gray-700 cursor-not-allowed"
+            }`}
             onClick={() => page > 1 && handlePageChange(page - 1)}
           >
             Previous
           </PaginationPrevious>
           {Array.from({ length: totalPages }, (_, i) => (
-            <PaginationItem key={i} onClick={() => handlePageChange(i + 1)}>
+            <PaginationItem
+              // className="bg-gray-200 rounded-lg p-2 mx-1"
+              className={
+                page === i + 1
+                  ? "bg-green-200 text-green-700 text-xl font-bold p-2 mx-1 rounded-lg"
+                  : "bg-gray-200 p-2 mx-1 rounded-md"
+              }
+              key={i}
+              onClick={() => handlePageChange(i + 1)}
+            >
               {i + 1}
             </PaginationItem>
           ))}
           <PaginationNext
+            className={`${
+              page !== totalPages
+                ? "bg-green-600 hover:bg-green-700 text-green-50 hover:text-white cursor-pointer"
+                : "bg-gray-200 hover:bg-gray-300 text-gray-500 hover:text-gray-700 cursor-not-allowed"
+            }`}
             onClick={() => page < totalPages && handlePageChange(page + 1)}
           >
             Next

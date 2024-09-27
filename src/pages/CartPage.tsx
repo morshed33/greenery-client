@@ -61,7 +61,7 @@ const CartPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto pt-16 p-4">
+    <div className="container mx-auto py-16 p-4">
       <h1 className="text-3xl font-bold mb-4 text-green-700 flex items-center">
         <FaShoppingCart className="mr-2" />
         Shopping Cart
@@ -137,7 +137,7 @@ const CartPage: React.FC = () => {
           ))}
         </tbody>
       </table>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center ">
         <div>
           <button
             onClick={handleClearCart}
@@ -147,12 +147,12 @@ const CartPage: React.FC = () => {
           </button>
         </div>
         <div className="text-right">
-          <h2 className="text-xl font-bold text-green-700">
+          <h2 className="text-xl font-bold text-green-700 mb-20">
             Total: ৳{cartTotal.toFixed(2)}
           </h2>
           <Link
             to="/checkout"
-            className="px-6 py-2 bg-green-500 text-white hover:bg-green-600 rounded transition duration-200"
+            className="px-6 py-2 mt-20 bg-green-500 text-white hover:bg-green-600 rounded transition duration-200"
           >
             Proceed to Checkout
           </Link>
