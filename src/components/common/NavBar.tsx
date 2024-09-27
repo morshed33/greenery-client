@@ -19,7 +19,7 @@ const NavBar: FC = () => {
 
           {/* Desktop Links */}
           <div className="hidden sm:flex sm:space-x-8">
-            {["Products", "Cart", "Payment", "Manage"].map((item) => (
+            {["Products", "Cart"].map((item) => (
               <Link
                 key={item}
                 to={`/${item.toLowerCase()}`}

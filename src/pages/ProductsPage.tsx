@@ -22,7 +22,7 @@ const ProductsPage: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="p-4 pt-10 bg-green-100">
+    <div className="p-4 pt-10 pb-20 bg-green-100">
       <div className="mx-auto max-w-7xl">
         <SectionHead
           title="Manage Plants."
