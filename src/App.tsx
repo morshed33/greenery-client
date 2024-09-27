@@ -12,6 +12,7 @@ import LandingPage from "./pages/LandingPage";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import Footer from "./components/common/Footer";
 
 // Scroll Restoration Component
 const ScrollToTop = () => {
@@ -66,6 +67,7 @@ function App() {
             />
           </Routes>
         </div>
+        <Footer />
       </Router>
     </div>
   );
